@@ -7,8 +7,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'current'
+
+      - name: Cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: npm-
+
+
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: tests
         run: npm run test
