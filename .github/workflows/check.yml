@@ -7,19 +7,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Cache Primes
-        id: cache-primes
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-            ${{ runner.os }}-
-
       - name: Install Dependencies
-        if: steps.cache-primes.outputs.cache-hit != 'true'
-        run: npm ci --prefer-offline
+        run: npm install
 
       - name: tests
         run: npm run test
